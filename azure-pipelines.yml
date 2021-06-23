@@ -21,3 +21,9 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sqMavenPluginVersionChoice: 'latest'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker hub'
+    repository: 'kaniko'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
