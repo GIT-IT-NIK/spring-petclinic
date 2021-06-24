@@ -1,19 +1,13 @@
 FROM alpine/git as clone
-ARG url 
 WORKDIR /app
-RUN git clone ${url}
+RUN git clone https://github.com/spring-projects/spring-petclinic.git
 
 FROM maven:3.5-jdk-8-alpine as build
-ARG project 
 WORKDIR /app
-COPY --from=clone /app/${project} /app
+COPY --from=clone /app/spring-petclinic /app
 RUN mvn install
 
 FROM openjdk:8-jre-alpine
-ARG artifactid
-ARG version
-ENV artifact ${artifactid}-${version}.jar
 WORKDIR /app
-COPY --from=build /app/target/${artifact} /app
-EXPOSE 8080
-CMD ["java -jar ${artifact}"]
+COPY --from=build /app/target/spring-petclinic-1.5.1.jar /app
+CMD ["java -jar spring-petclinic-1.5.1.jar"]
