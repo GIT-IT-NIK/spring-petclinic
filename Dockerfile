@@ -5,7 +5,7 @@ RUN git clone https://github.com/spring-projects/spring-petclinic.git
 FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
 COPY --from=clone /app/spring-petclinic /app
-RUN mvn clean install -Dmaven.test.skip -DskipTests
+RUN mvn -T 1C clean install -Dmaven.test.skip -DskipTests -Dmaven.javadoc.skip=true
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
